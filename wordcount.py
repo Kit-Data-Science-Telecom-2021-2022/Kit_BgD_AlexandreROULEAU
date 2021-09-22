@@ -36,42 +36,54 @@ Optional: define a helper function to avoid code duplication inside
 print_words() and print_top().
 
 """
-
 import sys
 
-def OpenFile(filename):
-    with open(filename) as f:
-        Fcontent = f.read()       
-    return Fcontent
-
-def UniqueWords(FileContent):
-    FileContent = FileContent.lower()
-    words = FileContent.split()
-    words = [word.strip(".,!?:;()[]'") for word in words]
-#    words = [word.replace(["'s"], '') for word in words]
-    
-    #finding unique
-    unique = []
-    for word in words:
-        if word not in unique:
-            unique.append(word)
-    unique.sort()
-    return unique
-
-#def CountWords(UniqueWords, FileContent):
-#{#    Count = []
-#    for iUnique in UniqueWords:
-        
-#    return Count
-    
-
-#sort
-#unique.sort()
-
-#print
-#print(unique)
+# +++your code here+++
+# Define print_words(filename) and print_top(filename) functions.
+# You could write a helper utility function that reads a file
+# and builds and returns a word/count dict for it.
+# Then print_words() and print_top() can just call the utility function.
 
 ###
+def helper_fct(filename):
+    Input_Data = open(filename)
+    Words_List = []
+    Count = {}
+    for line in Input_Data:
+        for words in line.split():
+            Words_List.append(words.lower())
+            
+    for iWord in Words_List:
+        Count[iWord] = Words_List.count(iWord)
+        
+    return Count
+
+
+
+def print_words(filename):
+    
+    Count = helper_fct(filename)
+    
+    for keys in sorted(Count.keys()):
+        print(keys, Count[keys])
+        
+    return
+
+def print_top(filename):
+    
+    Count = helper_fct(filename)  
+    sorted_dict = {}
+    sorted_keys = reversed(sorted(Count, key=Count.get))
+
+    for w in sorted_keys:
+        sorted_dict[w] = Count[w]
+     
+    for item in list(sorted_dict.items())[:20]:
+        print (item[0], item[1])    
+
+    return item[0],item[1]
+
+
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
@@ -91,5 +103,6 @@ def main():
     sys.exit(1)
 
 if __name__ == '__main__':
-  Fcontent = OpenFile('alice.txt')
-  Un_Words=UniqueWords(Fcontent)
+#  main()
+    Count=helper_fct("alice.txt")
+    
