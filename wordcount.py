@@ -39,11 +39,37 @@ print_words() and print_top().
 
 import sys
 
-# +++your code here+++
-# Define print_words(filename) and print_top(filename) functions.
-# You could write a helper utility function that reads a file
-# and builds and returns a word/count dict for it.
-# Then print_words() and print_top() can just call the utility function.
+def OpenFile(filename):
+    with open(filename) as f:
+        Fcontent = f.read()       
+    return Fcontent
+
+def UniqueWords(FileContent):
+    FileContent = FileContent.lower()
+    words = FileContent.split()
+    words = [word.strip(".,!?:;()[]'") for word in words]
+#    words = [word.replace(["'s"], '') for word in words]
+    
+    #finding unique
+    unique = []
+    for word in words:
+        if word not in unique:
+            unique.append(word)
+    unique.sort()
+    return unique
+
+#def CountWords(UniqueWords, FileContent):
+#{#    Count = []
+#    for iUnique in UniqueWords:
+        
+#    return Count
+    
+
+#sort
+#unique.sort()
+
+#print
+#print(unique)
 
 ###
 
@@ -51,7 +77,7 @@ import sys
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
+    print ('usage: ./wordcount.py {--count | --topcount} file')
     sys.exit(1)
 
   option = sys.argv[1]
@@ -61,8 +87,9 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print 'unknown option: ' + option
+    print ('unknown option: ' + option)
     sys.exit(1)
 
 if __name__ == '__main__':
-  main()
+  Fcontent = OpenFile('alice.txt')
+  Un_Words=UniqueWords(Fcontent)
